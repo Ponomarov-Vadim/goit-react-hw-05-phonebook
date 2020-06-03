@@ -1,0 +1,9 @@
+.alert {
+    min-width: 200px;
+    padding: 20px;
+    position: fixed;
+    top: 30px;
+    right: 0;
+    background-color: red;
+    color: white;
+}

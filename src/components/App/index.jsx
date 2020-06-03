@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import { v4 } from "uuid";
+import { CSSTransition } from "react-transition-group";
+
+import popTransition from "../../transitions/pop.module.css";
+import slideTransition from "../../transitions/slideFromLeft.module.css";
 
 import Filter from "../Filter";
 import ContactForm from "../ContactForm";
@@ -9,9 +13,13 @@ export default class App extends Component {
   state = {
     contacts: [],
     filter: "",
+    componentDidMount: false,
   };
 
   componentDidMount() {
+    this.setState({
+      componentDidMount: true,
+    });
     if (!this.state.contacts.length) {
       const contacts = JSON.parse(localStorage.getItem("contacts"));
       if (contacts) {
@@ -54,23 +62,34 @@ export default class App extends Component {
   };
 
   render() {
+    const { contacts, filter, componentDidMount } = this.state;
     return (
       <>
-        <h1>Phonebook</h1>
-        <ContactForm
-          addContact={this.addContact}
-          contacts={this.state.contacts}
-        />
+        <CSSTransition
+          in={componentDidMount}
+          timeout={500}
+          classNames={slideTransition}
+          unmountOnExit
+        >
+          <h1>Phonebook</h1>
+        </CSSTransition>
+
+        <ContactForm addContact={this.addContact} contacts={contacts} />
 
         <h2>Contacts</h2>
 
-        {this.state.contacts.length > 1 ? (
-          <Filter onChange={this.handleChange} value={this.state.filter} />
-        ) : null}
+        <CSSTransition
+          in={contacts.length > 1}
+          timeout={250}
+          classNames={popTransition}
+          unmountOnExit
+        >
+          <Filter onChange={this.handleChange} value={filter} />
+        </CSSTransition>
 
         <ContactList
-          contacts={this.state.contacts}
-          filter={this.state.filter}
+          contacts={contacts}
+          filter={filter}
           deleteContact={this.deleteContact}
         />
       </>

@@ -11,3 +11,8 @@ button {
     background-color: #fff;
     outline: none;
 }
+
+.list {
+    list-style: none;
+    padding: 0;
+}

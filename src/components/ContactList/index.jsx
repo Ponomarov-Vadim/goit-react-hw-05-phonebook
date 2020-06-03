@@ -1,27 +1,36 @@
 import React from "react";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import slideTransition from "../../transitions/slideFromLeft.module.css";
+
 import styled from "./ContactList.module.css";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
 const ContactList = ({ contacts, filter, deleteContact }) => (
-  <ul>
+  <TransitionGroup component="ul" className={styled.list}>
     {contacts.map((contact) =>
       contact.name.toLowerCase().includes(filter.toLowerCase()) ? (
-        <li key={contact.id} className={classNames(styled.li)}>
-          <span className={classNames(styled.span)}>
-            {contact.name}: {contact.number}
-          </span>
-          <button
-            name={contact.id}
-            onClick={deleteContact}
-            className={classNames(styled.button)}
-          >
-            Delete
-          </button>
-        </li>
+        <CSSTransition
+          key={contact.id}
+          timeout={250}
+          classNames={slideTransition}
+        >
+          <li className={classNames(styled.li)}>
+            <span className={classNames(styled.span)}>
+              {contact.name}: {contact.number}
+            </span>
+            <button
+              name={contact.id}
+              onClick={deleteContact}
+              className={classNames(styled.button)}
+            >
+              Delete
+            </button>
+          </li>
+        </CSSTransition>
       ) : null
     )}
-  </ul>
+  </TransitionGroup>
 );
 
 export default ContactList;

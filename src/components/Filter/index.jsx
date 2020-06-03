@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 
 const Filter = ({ onChange, value }) => (
-  <>
+  <div className={styled.filter}>
     <p>Find contacts by name</p>
     <input
       type="text"
@@ -13,7 +13,7 @@ const Filter = ({ onChange, value }) => (
       onChange={onChange}
       value={value}
     />
-  </>
+  </div>
 );
 
 export default Filter;
